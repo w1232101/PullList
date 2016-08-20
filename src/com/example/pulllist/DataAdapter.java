@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author jixiaolong<microjixl@gmail.com>
+ * 
  */
 public class DataAdapter extends BaseAdapter{
     private List<String> mList;

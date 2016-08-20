@@ -6,6 +6,8 @@ import java.util.Random;
 
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -25,6 +27,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private DataAdapter subjectAdapter;
 	private DataAdapter menuAdapter;
 	private View view;
+	private ZuNiScrollView zns;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		setContentView(parent);
 		findViewById(R.id.ll_select_subject).setOnClickListener(this);
 		findViewById(R.id.ll_select_subject2).setOnClickListener(this);
+		zns = (ZuNiScrollView) findViewById(R.id.zns);
 	}
 
 	@Override
@@ -50,7 +54,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		View foldBtn = view.findViewById(R.id.ll_title_sp);
 		RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) foldBtn.getLayoutParams();
 		lp.leftMargin = locations[0];
-		lp.topMargin = locations[1];
+		lp.topMargin = locations[1]-getStatusHeight(this);
 		foldBtn.setLayoutParams(lp);
 		popupWindow.showAtLocation(v, Gravity.NO_GRAVITY, v.getLeft(), locations[1]);
 
@@ -175,5 +179,22 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 		return mList;
 	}
-
+	public static int getStatusHeight(Activity activity) { 
+		int statusHeight = 0; 
+		Rect localRect = new Rect(); 
+		activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(localRect); 
+		statusHeight = localRect.top; 
+		if (0 == statusHeight) { 
+		Class<?> localClass; 
+		try { 
+		localClass = Class.forName("com.android.internal.R$dimen"); 
+		Object localObject = localClass.newInstance(); 
+		int i5 = Integer.parseInt(localClass.getField("status_bar_height").get(localObject).toString()); 
+		statusHeight = activity.getResources().getDimensionPixelSize(i5); 
+		} catch (Exception e) { 
+		e.printStackTrace(); 
+		} 
+		} 
+		return statusHeight; 
+		}
 }
