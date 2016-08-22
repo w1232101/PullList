@@ -38,17 +38,8 @@ public class ZuNiScrollView extends ScrollView {
 
 	private int height;
 	private int scrollViewMeasuredHeight;
-	// private Runnable run = new Runnable() {
-	//
-	// @Override
-	// public void run() {
-	//
-	// layout(left, top, right, bottom);
-	// handler.postDelayed(run, 20);
-	// }
-	// };
-	// private Handler handler = new Handler();
 	private boolean isIn = false;
+
 	private void initView() {
 		addOnLayoutChangeListener(new OnLayoutChangeListener() {
 
@@ -71,6 +62,7 @@ public class ZuNiScrollView extends ScrollView {
 			}
 		});
 	}
+
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
 
@@ -99,7 +91,7 @@ public class ZuNiScrollView extends ScrollView {
 			int dY = y - y3;
 			int dx = x - x3;
 			scrollY = getScrollY();
-			if (Math.abs(dY) > Math.abs(dx) && dY < 0 && (400 > Math.abs(dY)) && scrollY == 0) {
+			if (Math.abs(dY) > Math.abs(dx) && Math.abs(dx) < 5 && dY < 0 && scrollY == 0) {
 				layout(left, top - dY / 2, right, bottom - dY / 2);
 				if (isIn) {
 					return true;
@@ -107,7 +99,7 @@ public class ZuNiScrollView extends ScrollView {
 				isIn = true;
 				return true;
 			}
-			if (Math.abs(dY) > Math.abs(dx) && dY > 0 && (400 > Math.abs(dY))
+			if (Math.abs(dY) > Math.abs(dx) && Math.abs(dx) < 5 && dY > 0
 					&& (scrollY + height) == scrollViewMeasuredHeight) {
 				layout(left, top - dY / 2, right, bottom - dY / 2);
 				if (isIn) {
@@ -127,5 +119,4 @@ public class ZuNiScrollView extends ScrollView {
 
 		return super.dispatchTouchEvent(ev);
 	}
-
 }
